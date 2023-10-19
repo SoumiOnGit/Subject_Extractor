@@ -21,9 +21,8 @@ def cut_pdf(pdf_path, subject, start_page, end_page=None):
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
             
-        # base_name=os.path.basename(pdf_path)
-        base_dir = r'C:\Users\Soumi Sarkar\Documents\WORK\Subject Extractor Repo\Subject_Extractor\uploads'
-
+       
+        base_dir=os.path.dirname(pdf_path)
         rel_path = os.path.relpath(pdf_path, base_dir)
 
         base_name=rel_path.replace('\\', '_').replace(' ', '_')
@@ -93,20 +92,17 @@ def get_subjects_from_folder(folder_path):
     with open('output_data.csv', mode='w', newline='') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(['Path','len of pg_no and subjects','Page nos',"subjects"])
-        for root, dirs, files in os.walk(folder_path):
-            
-            for file in files:
-                if file.endswith(".pdf"):
-                    
-                    pdf_path = os.path.join(root, file)
-                    split_pdf_and_rename(pdf_path)
-                    print(pdf_path)
-                    page_numbers,subjects = get_subjects(pdf_path)
-                    print(len(page_numbers),len(subjects))
-                    print(page_numbers)
-                    print(subjects)
-                    writer.writerow([pdf_path,str([len(page_numbers),len(subjects)]),str(page_numbers),str(subjects)])
-                    all_subjects.update(subjects)
+        for file in os.listdir(folder_path):
+            if file.endswith(".pdf"):
+                pdf_path = os.path.join(folder_path, file)
+                split_pdf_and_rename(pdf_path)
+                print(pdf_path)
+                page_numbers,subjects = get_subjects(pdf_path)
+                print(len(page_numbers),len(subjects))
+                print(page_numbers)
+                print(subjects)
+                writer.writerow([pdf_path,str([len(page_numbers),len(subjects)]),str(page_numbers),str(subjects)])
+                all_subjects.update(subjects)
     return list(all_subjects)
 
-
+# get_subjects_from_folder(r'/Users/gokulakrishnan/Desktop/extra study/Subject_Extractor/uploads')

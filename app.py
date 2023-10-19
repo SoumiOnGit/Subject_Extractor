@@ -24,9 +24,12 @@ def sub():
 @app.route('/upload', methods = ['POST' , 'GET'] )
 def upload():
     if request.method == 'POST':
-        uploads = os.listdir(os.path.join(os.getcwd(),"uploads"))
-        for file in uploads:
-            os.remove(os.path.join(os.getcwd(),"uploads",file))
+        folders=os.listdir("uploads/extracts")
+        for folder in folders:
+            files=os.listdir("uploads/extracts/"+folder)
+            for file in files:
+                os.remove("uploads/extracts/"+folder+"/"+file)
+            os.rmdir("uploads/extracts/"+folder)
         uploaded_file = request.files['file']
         print(uploaded_file)
         print(uploaded_file.filename)
@@ -55,16 +58,7 @@ def show_extracts():
     return render_template('extracts.html', folders = folders, extract_path = extract_path, extractdict=extractdict)
 
 
-extracts = os.listdir(os.path.join(os.getcwd(),"uploads","extracts"))
-print(extracts)
 
-extractdict= {}
-
-for folder in extracts:
-    file = os.listdir(os.path.join(os.getcwd(),"uploads","extracts",folder))[0]
-
-    extractdict[folder] = os.path.join(os.getcwd(),"uploads","extracts",folder,file)
-print(extractdict)
 if __name__ == '__main__':
     app.run(debug=True)
 
