@@ -1,0 +1,4 @@
+<a href="/upload" > Upload another file</a>
+{%for folder in extractdict%}
+<a href="{{url_for('static', filename='extracts/' + extractdict[folder])}} " download>Download {{folder}}</a> <br>
+{%endfor%}
