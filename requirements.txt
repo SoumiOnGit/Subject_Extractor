@@ -1,1 +1,5 @@
 Flask
+pypdf2
+pdfminer.six
+pdfminer
+requests
